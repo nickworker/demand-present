@@ -1,0 +1,15 @@
+DemandBundle\Entity\Demand:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [view_default, view_demand]
+        note:
+            expose: true
+            groups: [view_default, view_demand]
+        state:
+            expose: true
+            groups: [view_default, view_demand]
+        user:
+            expose: true
+            groups: [view_user_id]

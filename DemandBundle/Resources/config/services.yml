@@ -1,0 +1,96 @@
+parameters:
+  demand.manager.demand.class: DemandBundle\Manager\DemandManager
+  demand.form.demand.class: DemandBundle\Form\Type\DemandFormType
+  demand.form.demand_day_off.class: DemandBundle\Form\Type\DemandDayOffFormType
+  demand.form.demand_payment.class: DemandBundle\Form\Type\DemandPaymentFormType
+  demand.workflow.event_listener.demand.class: DemandBundle\EventListener\Workflow\DemandWorkflowListener
+  demand.schedule.listener.demand_day_off_listener.class: DemandBundle\EventListener\Schedule\DemandDayOffListener
+  demand.day_off.doctrine_listener.class: DemandBundle\EventListener\Entity\DemandDayOffListener
+  demand.manager.day_off_rest.class: DemandBundle\Manager\DayOffRestManager
+  demand.manager.day_off_type.class: DemandBundle\Manager\DayOffTypeManager
+  demand.form.user_day_off_rest.class: DemandBundle\Form\Type\UserDayOffRestFormType
+  demand.day_off_type.doctrine_listener.class: DemandBundle\EventListener\Entity\DayOffTypeListener
+
+services:
+  demand.manager.demand:
+    class: '%demand.manager.demand.class%'
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@form.factory'
+      - '@state_machine.demand'
+      - '@app.helper.form_error_helper'
+      - '@app.manager.user'
+    lazy: true
+
+  demand.form.demand:
+    class: '%demand.form.demand.class%'
+    abstract: true
+    arguments:
+      - '@app.manager.user'
+    lazy: true
+
+  demand.form.demand_day_off:
+    class: '%demand.form.demand_day_off.class%'
+    tags:
+      - { name: form.type }
+    parent: demand.form.demand
+    lazy: true
+
+  demand.form.demand_payment:
+    class: '%demand.form.demand_payment.class%'
+    tags:
+      - { name: form.type }
+    parent: demand.form.demand
+    lazy: true
+
+  demand.workflow.event_listener.demand:
+    class: '%demand.workflow.event_listener.demand.class%'
+    arguments:
+      - '@app.manager.user'
+    tags:
+      - { name: kernel.event_subscriber }
+
+  demand.schedule.listener.demand_day_off_listener:
+    class: '%demand.schedule.listener.demand_day_off_listener.class%'
+    arguments:
+      - '@doctrine.orm.entity_manager'
+    tags:
+      - { name: kernel.event_subscriber }
+    lazy: true
+
+  demand.manager.day_off_rest:
+    class: '%demand.manager.day_off_rest.class%'
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@app.manager.user'
+    lazy: true
+
+  demand.day_off.doctrine_listener:
+    class: '%demand.day_off.doctrine_listener.class%'
+    arguments:
+      - '@demand.manager.day_off_rest'
+    tags:
+      - { name: doctrine.orm.entity_listener, entity: DemandBundle\Entity\DemandDayOff, event: preUpdate, method: preUpdate }
+
+  demand.manager.day_off_type:
+    class: '%demand.manager.day_off_type.class%'
+    arguments:
+      - '@doctrine.orm.entity_manager'
+    lazy: true
+
+  demand.form.user_day_off_rest:
+    class: '%demand.form.user_day_off_rest.class%'
+    arguments:
+      - '@app.manager.user'
+      - '@demand.manager.day_off_type'
+    tags:
+      - { name: form.type }
+    lazy: true
+
+  demand.day_off_type.doctrine_listener:
+    class: '%demand.day_off_type.doctrine_listener.class%'
+    arguments:
+      - '@demand.manager.day_off_rest'
+    tags:
+      - { name: doctrine.orm.entity_listener, entity: DemandBundle\Entity\DayOffType, event: postPersist, method: postPersist }
+      - { name: doctrine.orm.entity_listener, entity: DemandBundle\Entity\DayOffType, event: postUpdate, method: postUpdate }

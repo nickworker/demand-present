@@ -1,0 +1,12 @@
+DemandBundle\Entity\DemandPayment:
+    exclusion_policy: ALL
+    properties:
+        year:
+            expose: true
+            groups: [view_default, view_demand_payment]
+        month:
+            expose: true
+            groups: [view_default, view_demand_payment]
+        amount:
+            expose: true
+            groups: [view_default, view_demand_payment]

@@ -1,0 +1,12 @@
+DemandBundle\Entity\DemandDayOff:
+    exclusion_policy: ALL
+    properties:
+        startedAt:
+            expose: true
+            groups: [view_default, view_demand_day_off]
+        endedAt:
+            expose: true
+            groups: [view_default, view_demand_day_off]
+        type:
+            expose: true
+            groups: [view_default, view_demand_day_off]

@@ -1,0 +1,27 @@
+DemandBundle\Entity\DayOffType:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [view_default, view_day_off_type]
+        title:
+            expose: true
+            groups: [view_default, view_day_off_type]
+        isDisabled:
+            expose: true
+            groups: [view_default, view_day_off_type_by_admin, view_day_off_type_is_disabled]
+        isAuto:
+            expose: true
+            groups: [view_default, view_day_off_type_by_admin, view_day_off_type_is_auto]
+        createdAt:
+            expose: true
+            groups: [view_default, view_day_off_type_by_admin]
+        period:
+            expose: true
+            groups: [view_default, view_day_off_type_by_admin]
+        createdAt:
+            expose: true
+            groups: [view_default, view_day_off_type_by_admin]
+        daysAmount:
+            expose: true
+            groups: [view_default, view_day_off_type_by_admin]

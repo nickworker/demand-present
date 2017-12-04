@@ -1,0 +1,72 @@
+DemandBundle\Entity\Demand:
+  properties:
+    user:
+      - NotBlank:  ~
+    state:
+      - NotBlank:  ~
+    note:
+      - Length:
+          min: 2
+
+DemandBundle\Entity\DemandDayOff:
+  constraints:
+    - AppBundle\Validator\Constraints\DateStartEnd:
+        errorPath: 'endedAt'
+  properties:
+    endedAt:
+      - NotBlank:  ~
+    startedAt:
+      - NotBlank: ~
+
+DemandBundle\Entity\DemandPayment:
+  properties:
+    month:
+      - NotBlank: ~
+      - Range:
+          min: 1
+          max: 12
+    year:
+      - NotBlank: ~
+      - Range:
+          min: 1900
+    amount:
+      - NotBlank: ~
+      - Range:
+          min: 0
+
+DemandBundle\Entity\DayOffRest:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [user, type, status]
+  properties:
+    amount:
+      - NotBlank: ~
+      - GreaterThanOrEqual: 0
+      - Type:
+          type: integer
+    user:
+      - NotBlank: ~
+    type:
+      - NotBlank: ~
+    status:
+      - NotBlank: ~
+      - Length:
+          min: 3
+          max: 100
+
+DemandBundle\Entity\DayOffType:
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [title, owner]
+  properties:
+    title:
+      - NotBlank: ~
+      - Length:
+          min: 2
+          max: 150
+    owner:
+      - NotBlank: ~
+    period:
+      - NotBlank:
+          groups: [AutoEnabled]
+    daysAmount:
+      - NotBlank:
+          groups: [AutoEnabled]

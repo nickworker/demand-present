@@ -1,0 +1,15 @@
+DemandBundle\Entity\DayOffRest:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [view_default, view_day_off_rest]
+        amount:
+            expose: true
+            groups: [view_default, view_day_off_rest]
+        type:
+            expose: true
+            groups: [view_default, view_day_off_type]
+        status:
+            expose: true
+            groups: [view_default, view_day_off_type]
